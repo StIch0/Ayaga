@@ -11,7 +11,7 @@ import UIKit
 class PostNewsViewController: UIViewController {
     var presenter =  ResultPresenter(service: ResultServise())
     var viewData = [ResulViewData]()
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    var activityIndicator = UIActivityIndicatorView()
     override func viewDidLoad() {
         super.viewDidLoad()
         let reveal : SWRevealViewController? = revealViewController()        

@@ -12,53 +12,27 @@ class CurrentMessagesViewController: UIViewController {
     
     var usmessModel : [UserMessagesModel] = [UserMessagesModel]()
     var id : Int = 0;
+        
+    let textField = UITextField()    
+    let customInputView = UIView()                
+    var inputViewBottomAnchor : NSLayoutConstraint?
     
     var collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setCollectionView()        
-        setUpKeyBoardObservers()
-        setInputView()
-    }    
+        setCollectionView()
+        setUpKeyBoardObservers()        
+        setUpInputView()
+        
+        collectionView.keyboardDismissMode = .onDrag
+    }   
     
-    func setCollectionView()
-    {
-        view.addSubview(collectionView)
-        view.addConstraintsWithForamt(format: "H:|[v0]|", views: collectionView)
-        view.addConstraintsWithForamt(format: "V:|[v0]|", views: collectionView)
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.backgroundColor = UIColor(white: 0.95, alpha: 1)
-        collectionView.register(CurrentMessagesCell.self, forCellWithReuseIdentifier: "CurrentMessagesCell")
-        let layout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 0
-        layout.scrollDirection = .vertical
-        collectionView.collectionViewLayout = layout
-        view.backgroundColor = UIColor(white: 0.95, alpha: 1)
-        collectionView.backgroundColor = UIColor(white: 0.95, alpha: 1)
-    }
-    
-    func setInputView()
-    {
-        let inputView = UIView()
-        let attachmentButton = UIButton()
-        let sendButton = UIButton()
-        let textField = UITextField()
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)                
         
-        collectionView.addSubview(inputView)
-        collectionView.addConstraintsWithForamt(format: "V:[v0(20)]|", views: inputView)
-        collectionView.addConstraintsWithForamt(format: "H:|[v0]|", views: inputView)
-        
-        inputView.addSubview(attachmentButton)
-        inputView.addSubview(sendButton)
-        inputView.addSubview(textField)
-        
-        inputView.addConstraintsWithForamt(format: "H:|[v0(20)]-4-[v1]-2-[v2(20)]|", views: attachmentButton, textField, sendButton)
-        inputView.addConstraintsWithForamt(format: "V:|[v0(20)]|", views: attachmentButton)
-        inputView.addConstraintsWithForamt(format: "V:|[v0(20)]|", views: textField)
-        inputView.addConstraintsWithForamt(format: "V:|[v0(20)]|", views: sendButton)
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
@@ -119,19 +93,23 @@ extension CurrentMessagesViewController : UICollectionViewDelegate, UICollection
 
 
 
-
-
-// SET UP BEHAVIOUR FOR KEYBOARD !!! O_o
 extension CurrentMessagesViewController
 {
-    func setUpKeyBoardObservers ()
+    func handleSendMsg ()
     {        
-        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-    }
-    
-    func handleKeyboardWillShow (notification : NSNotification)
-    {
-        let keyboardFrame = notification.userInfo?[UIKeyboardFrameEndUserInfoKey]
-        print (keyboardFrame.debugDescription)
+        var stringForSend = ""
+        //textField.text?.lengthOfBytes(using: .ascii)
+        if let strArray = textField.text?.split(separator: " ") {
+            for str in strArray {
+                stringForSend += str + " "
+            }
+            if stringForSend.isEmpty == false {stringForSend.removeLast()}             
+        }
+        
+        if stringForSend.isEmpty {
+            return
+        }
+        
+        print ("Message for send =", stringForSend)
     }
 }

@@ -10,22 +10,20 @@ import UIKit
 
 class CommentsTableViewCell: UITableViewCell {
     var user_id : Int = 0
-    @IBOutlet weak var user_login : UITextView?
-    @IBOutlet weak var date : UITextView?
-    @IBOutlet weak var textComments : UITextView?
+    var user_login   = UIButton()
+    var textComments = UITextView()
     var images : [String] = Array()
     var audio : [String] = Array()
     var video : [String] = Array()
     var docs : [String] = Array()
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        setView()
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
-
 }

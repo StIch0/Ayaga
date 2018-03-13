@@ -25,12 +25,16 @@ class CurrentNewsViewController: UIViewController {
     var user_mark : Int = 0
     var tableView = UITableView()    
     
+    var activityIndicator = UIActivityIndicatorView()
     let presenter  = CommentsPresenter(service: GeneralDataService())
     var commentsViewData = [CommentsViewData]()
     var commensData : [[String :AnyObject]] = Array()
     var commentsDataModel = [CommentsDataModel]()
     var cmd = CommentsDataModel()
     var post_id : Int = 181
+    
+    let textField = UITextField()    
+    let customInputView = UIView() 
     
     override func viewDidLoad() {
         super.viewDidLoad()        
@@ -60,27 +64,35 @@ class CurrentNewsViewController: UIViewController {
               views,
               user_mark)
         
-        self.view.addSubview(tableView)
+        setUpInputView()
         
+        self.view.addSubview(tableView)        
         tableView.delegate = self
         tableView.dataSource = self
-        self.view.addConstraintsWithForamt(format: "H:|[v0]|", views: tableView)
-        self.view.addConstraintsWithForamt(format: "V:|[v0]|", views: tableView)
+        view.addConstraintsWithForamt(format: "H:|[v0]|", views: tableView)
+        view.addConstraintsWithForamt(format: "V:|[v0]-45-|", views: tableView)
         tableView.register(CurrentFeedCell.self, forCellReuseIdentifier: "CurrentFeedCell")
+        tableView.register(CommentsTableViewCell.self, forCellReuseIdentifier: "CommentsTableViewCell")
         tableView.allowsSelection = false
+        
+        getComments()
+    }    
+    
+    func getComments () {
+        presenter.atachView(commentsView: self as ViewBuild)
+        presenter.getComments(["post_id":post_id as AnyObject])
     }
 }
 
 extension CurrentNewsViewController: UITableViewDelegate, UITableViewDataSource
 {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 1 + commentsDataModel.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = CurrentFeedCell()
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {        
         if (indexPath.row == 0) {
-            cell = tableView.dequeueReusableCell(withIdentifier: "CurrentFeedCell", for: indexPath) as! CurrentFeedCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "CurrentFeedCell", for: indexPath) as! CurrentFeedCell
             cell.setLoginAndDate(user_login, date)
             cell.setViewsText(views)
             cell.mark.text = "\(mark)"
@@ -91,13 +103,29 @@ extension CurrentNewsViewController: UITableViewDelegate, UITableViewDataSource
             cell.video = video
             cell.audio = audio
             cell.docs = docs
-            cell.setConstraints()
+            
+            if (images.count > 0) {
+                cell.imageHeightAnchor?.constant = 400
+            }
+            else {
+                cell.imageHeightAnchor?.constant = 0
+            }
+            
+            return cell
         }
         else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "CommentsTableViewCell", for: indexPath) as! CommentsTableViewCell
+            let commentsData = commentsDataModel[indexPath.row - 1]
+            cell.user_id = commentsData.user_id            
+            cell.setLoginAndDate(commentsData.user_login, commentsData.date)
+            cell.textComments.text = commentsData.textComments
+            cell.images = commentsData.images
+            cell.video = commentsData.video
+            cell.audio = commentsData.audio
+            cell.docs = commentsData.docs
             
-        }
-        
-        return cell
+            return cell
+        }                
     }   
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -105,10 +133,8 @@ extension CurrentNewsViewController: UITableViewDelegate, UITableViewDataSource
 
             let textH = NSString(string: fultext).boundingRect(with: CGSize(width: tableView.frame.width, height: 4000), options: NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin), attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)], context: nil)
                     
-            print (textH.height)
-            // 44=profileImg, 350=imgCollectionView, 40=MarksViews, 30=extraSpace
+            // 44=profileImg, 350=imgCollectionView, 40=MarksViews, 35=extraSpace
             //|-8-[v0(44)]-4-[v1]-8-[v2(350)]-8-[v3(1)]-4-[v4(40)]|
-            print (images)
             if (images.count > 0) {
                 return 8 + 44 + 4 + textH.height + 8 + 400 + 8 + 1 + 4 + 40 + 35
             }
@@ -116,6 +142,60 @@ extension CurrentNewsViewController: UITableViewDelegate, UITableViewDataSource
             return 8 + 44 + 4 + textH.height + 8 + 1 + 4 + 40 + 35
         }
         
-        return 40
+        let commentsData = commentsDataModel[indexPath.row - 1]
+        
+        let textH = NSString(string: commentsData.textComments).boundingRect(with: CGSize(width: tableView.frame.width, height: 4000), options: NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin), attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 13)], context: nil)
+        
+        print (fultext)
+        
+        //"V:|-8-[v0(44)]-4-[v1]-8-|"
+        
+        return 8 + 44 + 4 + textH.height + 8 + 20
+    }
+}
+
+extension CurrentNewsViewController {
+    func handleSendMsg ()
+    {
+        var stringForSend = ""
+        //textField.text?.lengthOfBytes(using: .ascii)
+        if let strArray = textField.text?.split(separator: " ") {
+            for str in strArray {
+                stringForSend += str + " "
+            }
+            if stringForSend.isEmpty == false {stringForSend.removeLast()}             
+        }
+        
+        if stringForSend.isEmpty {
+            return
+        }
+        
+        print ("Comment for send =", stringForSend)
+    }
+}
+
+extension CurrentNewsViewController : ViewBuild {
+    internal func setEmptyData() {
+        tableView.isHidden = true
+    }
+    
+    func setData (data: [ViewData]) {
+        commentsViewData = data as! [CommentsViewData]
+        commensData = (commentsViewData.last?.comments)!
+        print("commentsViewData.first?.comments",commentsViewData.count)
+        for item in commensData {
+            let dataq = cmd.build(item)
+            commentsDataModel.append(dataq as! CommentsDataModel)
+        }        
+        tableView.reloadData()
+        print (tableView.contentOffset)
+    }
+    
+    internal func finishLoading() {
+        activityIndicator.stopAnimating()
+    }
+    
+    internal func startLoading() {
+        activityIndicator.startAnimating()
     }
 }

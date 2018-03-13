@@ -78,14 +78,15 @@ extension NewsCell
         profileImageView.clipsToBounds = true        
         setLoginAndDate("qwe", "01.02.2018 12:11")
         setViewsText("123")        
+        user_login.removeConstraints(user_login.constraints)
+        user_login.addConstraintsWithForamt(format: "H:|[v0]|", views: user_login.titleLabel!)
+        user_login.addConstraintsWithForamt(format: "V:|[v0]|", views: user_login.titleLabel!)
     }
     
     func setConstraints()
     {
-        self.contentView.removeConstraints(self.contentView.constraints)        
+        self.contentView.removeConstraints(self.contentView.constraints)                
         
-        user_login.addConstraintsWithForamt(format: "H:|[v0]|", views: user_login.titleLabel!)
-        user_login.addConstraintsWithForamt(format: "V:|[v0]|", views: user_login.titleLabel!)
         contentView.addConstraintsWithForamt(format: "H:|-8-[v0(44)]-8-[v1]|", views: profileImageView, user_login)        
         contentView.addConstraintsWithForamt(format: "V:|-8-[v0(44)]", views: user_login)
         contentView.addConstraintsWithForamt(format: "H:|-8-[v0]-8-|", views: title)

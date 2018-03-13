@@ -16,7 +16,8 @@ class ViewController: UIViewController {
     var newsToDisplay = [NewsViewData]()
     var limit : Int = 20
     var offset : Int = 0
-    var btnMenu = UIBarButtonItem()
+    var btnMenu = UIBarButtonItem()    
+    var id : Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +32,7 @@ class ViewController: UIViewController {
         collectionView.alwaysBounceVertical = true
         activityIndicator.hidesWhenStopped = true
         presenter.atachView(view: self as ViewBuild)
-        presenter.getNews(parameters: ["limit": limit as AnyObject, "offset" : offset as AnyObject, "post_id" : Profile.shared.id as AnyObject ])        
+        presenter.getNews(parameters: ["limit": limit as AnyObject, "offset" : offset as AnyObject, "post_id" : id as AnyObject ])        
         self.view.addSubview(collectionView)                
         setCollectionView()
         collectionView.reloadData()                

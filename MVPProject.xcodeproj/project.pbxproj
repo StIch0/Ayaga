@@ -64,6 +64,7 @@
 		77FF31EC200CBB90006CF5F1 /* APISelected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FF31EB200CBB90006CF5F1 /* APISelected.swift */; };
 		881068B0204E238E00835547 /* MsgCellExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881068AF204E238E00835547 /* MsgCellExt.swift */; };
 		881068B2204E358C00835547 /* CurrentMsgCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881068B1204E358C00835547 /* CurrentMsgCell.swift */; };
+		883281EC205396AF00FCF14E /* CurrentMessageExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883281EB205396AF00FCF14E /* CurrentMessageExt.swift */; };
 		884D7FD3203A68F300398A96 /* menuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884D7FD2203A68F300398A96 /* menuViewController.swift */; };
 		884D7FD6203A698200398A96 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884D7FD5203A698200398A96 /* MenuCell.swift */; };
 		884D7FDA203A7ABD00398A96 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 884D7FD9203A7ABB00398A96 /* SWRevealViewController.m */; };
@@ -72,6 +73,8 @@
 		88CC4186203BF20D00C2FB71 /* CurrentFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC4185203BF20D00C2FB71 /* CurrentFeedCell.swift */; };
 		88D363B220439E3C00829549 /* NewsCellExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D363B120439E3C00829549 /* NewsCellExt.swift */; };
 		88D363B420439F0500829549 /* CurrentFeedCellExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D363B320439F0500829549 /* CurrentFeedCellExt.swift */; };
+		88D9F88D205769FC0062FEAD /* CommentCellExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D9F88C205769FC0062FEAD /* CommentCellExt.swift */; };
+		88D9F88F205810040062FEAD /* CurrentNewsExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D9F88E205810040062FEAD /* CurrentNewsExt.swift */; };
 		88FAD3C7204C4C1B00F7DA7D /* SignInExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FAD3C6204C4C1B00F7DA7D /* SignInExt.swift */; };
 		88FAD3CC204C685D00F7DA7D /* SignUpExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FAD3CB204C685D00F7DA7D /* SignUpExt.swift */; };
 		88FAD3CF204D022800F7DA7D /* UsrInfoExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FAD3CE204D022800F7DA7D /* UsrInfoExt.swift */; };
@@ -162,6 +165,7 @@
 		77FF31EB200CBB90006CF5F1 /* APISelected.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APISelected.swift; sourceTree = "<group>"; };
 		881068AF204E238E00835547 /* MsgCellExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MsgCellExt.swift; sourceTree = "<group>"; };
 		881068B1204E358C00835547 /* CurrentMsgCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentMsgCell.swift; sourceTree = "<group>"; };
+		883281EB205396AF00FCF14E /* CurrentMessageExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentMessageExt.swift; sourceTree = "<group>"; };
 		884D7FD2203A68F300398A96 /* menuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = menuViewController.swift; sourceTree = "<group>"; };
 		884D7FD5203A698200398A96 /* MenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
 		884D7FD7203A7ABA00398A96 /* MVPProject-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MVPProject-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -172,6 +176,8 @@
 		88CC4185203BF20D00C2FB71 /* CurrentFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentFeedCell.swift; sourceTree = "<group>"; };
 		88D363B120439E3C00829549 /* NewsCellExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCellExt.swift; sourceTree = "<group>"; };
 		88D363B320439F0500829549 /* CurrentFeedCellExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentFeedCellExt.swift; sourceTree = "<group>"; };
+		88D9F88C205769FC0062FEAD /* CommentCellExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCellExt.swift; sourceTree = "<group>"; };
+		88D9F88E205810040062FEAD /* CurrentNewsExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentNewsExt.swift; sourceTree = "<group>"; };
 		88FAD3C6204C4C1B00F7DA7D /* SignInExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInExt.swift; sourceTree = "<group>"; };
 		88FAD3CB204C685D00F7DA7D /* SignUpExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpExt.swift; sourceTree = "<group>"; };
 		88FAD3CE204D022800F7DA7D /* UsrInfoExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsrInfoExt.swift; sourceTree = "<group>"; };
@@ -334,6 +340,7 @@
 		7774A00A202059AA00CE7668 /* User Info */ = {
 			isa = PBXGroup;
 			children = (
+				7774A00B202059B400CE7668 /* Post News */,
 				77FF31E2200B618E006CF5F1 /* UsrInfoViewController.swift */,
 			);
 			name = "User Info";
@@ -523,7 +530,6 @@
 				884D7FD1203A689F00398A96 /* Menu */,
 				7774A009202059A100CE7668 /* News */,
 				7774A00A202059AA00CE7668 /* User Info */,
-				7774A00B202059B400CE7668 /* Post News */,
 				7774A00C202059C300CE7668 /* Messages */,
 				7774A00D202059D000CE7668 /* Cards */,
 				77A3753E2028285B00E46BEF /* Sign Up */,
@@ -567,6 +573,7 @@
 			children = (
 				881068AF204E238E00835547 /* MsgCellExt.swift */,
 				881068B1204E358C00835547 /* CurrentMsgCell.swift */,
+				883281EB205396AF00FCF14E /* CurrentMessageExt.swift */,
 			);
 			name = Messages;
 			sourceTree = "<group>";
@@ -604,6 +611,8 @@
 			children = (
 				88D363B120439E3C00829549 /* NewsCellExt.swift */,
 				88D363B320439F0500829549 /* CurrentFeedCellExt.swift */,
+				88D9F88C205769FC0062FEAD /* CommentCellExt.swift */,
+				88D9F88E205810040062FEAD /* CurrentNewsExt.swift */,
 			);
 			name = News;
 			sourceTree = "<group>";
@@ -979,6 +988,7 @@
 				884D7FD3203A68F300398A96 /* menuViewController.swift in Sources */,
 				77749FFA20203B4800CE7668 /* CommentsModel.swift in Sources */,
 				776C77822005EE56009FA32F /* NewsPresenter.swift in Sources */,
+				88D9F88D205769FC0062FEAD /* CommentCellExt.swift in Sources */,
 				7774A000202044EC00CE7668 /* CommentsViewController.swift in Sources */,
 				77FF31EA200CAE18006CF5F1 /* ResultModel.swift in Sources */,
 				77433D482019BEBC003C33DE /* MessagesTableViewCell.swift in Sources */,
@@ -989,6 +999,7 @@
 				77FF31D7200B521D006CF5F1 /* UserInfoModel.swift in Sources */,
 				77433D3E2019B30A003C33DE /* MessagesModel.swift in Sources */,
 				77749FEE201EF2B700CE7668 /* CurrentCardViewController.swift in Sources */,
+				883281EC205396AF00FCF14E /* CurrentMessageExt.swift in Sources */,
 				77749FF8201EFDBD00CE7668 /* CurrentCardDataViewController.swift in Sources */,
 				77B544A620148B4000DD91A2 /* CurrentNewsViewController.swift in Sources */,
 				7774A01620218F5C00CE7668 /* GeneralModel.swift in Sources */,
@@ -1007,6 +1018,7 @@
 				771B048F201884310049FA69 /* PostNewsViewController.swift in Sources */,
 				77FF31DA200B5587006CF5F1 /* UserInfoPresenter.swift in Sources */,
 				8868BFDE203197B60045A5AC /* Extensions.swift in Sources */,
+				88D9F88F205810040062FEAD /* CurrentNewsExt.swift in Sources */,
 				88D363B220439E3C00829549 /* NewsCellExt.swift in Sources */,
 				77FF31EC200CBB90006CF5F1 /* APISelected.swift in Sources */,
 				88FAD3D1204D7A7100F7DA7D /* UserInfoCollectionViewCell.swift in Sources */,

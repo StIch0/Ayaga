@@ -25,6 +25,8 @@ class CurrentFeedCell: UITableViewCell {
     var audio : [String] = Array()
     var video : [String] = Array()        
     
+    var imageHeightAnchor : NSLayoutConstraint?
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setView()

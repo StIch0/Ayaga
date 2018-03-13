@@ -15,12 +15,13 @@ extension MessagesTableViewCell
         contentView.addSubview(user_login )
         contentView.addSubview(user_photo )
         contentView.addSubview(date       )
-        contentView.addSubview(lastMessage)
+        contentView.addSubview(lastMessage)        
         
         user_photo .layer.cornerRadius = 20
-        lastMessage.layer.cornerRadius = 14
+        lastMessage.layer.cornerRadius = 10
+        lastMessage.clipsToBounds = true
         
-        user_photo.backgroundColor = .red
+        user_photo.backgroundColor = .gray
         
         date.textAlignment = .center
         date.font = UIFont.systemFont(ofSize: 12)
@@ -29,7 +30,13 @@ extension MessagesTableViewCell
         user_login.font = UIFont.systemFont(ofSize: 15)
         lastMessage.font = UIFont.systemFont(ofSize: 13)
         lastMessage.textColor = UIColor(white: 0, alpha: 0.7) 
-        
+                
+        setConstraints()
+    }
+    
+    func setConstraints()
+    {
+        contentView.removeConstraints(contentView.constraints)
         contentView.addConstraintsWithForamt(format: "V:|-8-[v0(70)]", views: user_photo)
         contentView.addConstraintsWithForamt(format: "V:|-8-[v0(30)]", views: date)
         contentView.addConstraintsWithForamt(format: "V:|-8-[v0(30)]-8-[v1(30)]", views: user_login, lastMessage)

@@ -9,8 +9,8 @@
 import UIKit
 
 class CommentsViewController: UIViewController {
-    @IBOutlet weak var tableView : UITableView?
-    @IBOutlet weak var activityIndicator : UIActivityIndicatorView?
+    var tableView = UITableView()
+    var activityIndicator = UIActivityIndicatorView()
     let presenter  = CommentsPresenter(service: GeneralDataService())
     var commentsViewData = [CommentsViewData]()
     var commensData : [[String :AnyObject]] = Array()
@@ -19,23 +19,19 @@ class CommentsViewController: UIViewController {
     let post_id : Int = 181
     override func viewDidLoad() {
         super.viewDidLoad()
-        activityIndicator?.hidesWhenStopped = true
+        activityIndicator.hidesWhenStopped = true
 
         presenter.atachView(commentsView: self as ViewBuild)
         presenter.getComments(["post_id":post_id as AnyObject])
-        tableView?.dataSource = self
+        tableView.dataSource = self
          // Do any additional setup after loading the view.
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+    
     
 }//79244514835
 extension CommentsViewController : ViewBuild {
     internal func setEmptyData() {
-        tableView?.isHidden = true
+        tableView.isHidden = true
     }
     
     internal func setData (data: [ViewData]) {
@@ -46,17 +42,17 @@ extension CommentsViewController : ViewBuild {
             let dataq = cmd.build(item)
             commentsDataModel.append(dataq as! CommentsDataModel)
         }
-        tableView?.isHidden = false
-        tableView?.reloadData()
+        tableView.isHidden = false
+        tableView.reloadData()
         
     }
     
     internal func finishLoading() {
-        activityIndicator?.stopAnimating()
+        activityIndicator.stopAnimating()
     }
     
     internal func startLoading() {
-        activityIndicator?.startAnimating()
+        activityIndicator.startAnimating()
     }
 }
 extension CommentsViewController : UITableViewDataSource {
@@ -67,9 +63,9 @@ extension CommentsViewController : UITableViewDataSource {
         let commentsData = commentsDataModel[indexPath.row]
         print("commentsData",commentsData)
         cell.user_id = commentsData.user_id
-        cell.user_login?.text = commentsData.user_login
-        cell.date?.text = commentsData.date
-        cell.textComments?.text = commentsData.textComments
+//        cell.user_login.text = commentsData.user_login
+//        cell.date.text = commentsData.date
+        cell.textComments.text = commentsData.textComments
         cell.images = commentsData.images
         cell.video = commentsData.video
         cell.audio = commentsData.audio

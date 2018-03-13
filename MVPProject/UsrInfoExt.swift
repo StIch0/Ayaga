@@ -79,8 +79,12 @@ extension UserInfoCollectionViewCell
         sendMessageBtn.setTitleColor(.white, for: .normal)
         sendMessageBtn.backgroundColor = .orange
         sendMessageBtn.isHidden = true
-        sendMessageBtn.layer.cornerRadius = 10
-        
+        sendMessageBtn.layer.cornerRadius = 10                
+    }
+    
+    func setConstraints()
+    {
+        contentView.removeConstraints(contentView.constraints)
         contentView.addConstraintsWithForamt(format: "H:|[v0]|", views: userImg       )
         contentView.addConstraintsWithForamt(format: "H:|-8-[v0]-8-|", views: nameText      )
         contentView.addConstraintsWithForamt(format: "H:|-8-[v0][v1]-4-|", views: phone    , phoneText     )
@@ -93,7 +97,7 @@ extension UserInfoCollectionViewCell
         contentView.addConstraintsWithForamt(format: "V:|[v0(350)]-8-[v1(30)]-8-[v2(25)]-8-[v3(25)]-8-[v4(25)]-8-[v5(25)]-8-[v6(25)]-8-|",
                                              views: userImg, nameText, phone, city, birthDate, subNum, quitBtn)
         contentView.addConstraintsWithForamt(format: "V:|[v0(350)]-8-[v1(30)]-8-[v2(25)]-8-[v3(25)]-8-[v4(25)]-8-[v5(25)]-8-[v6(25)]-8-|",
-                                      views: userImg, nameText, phoneText, cityText, birthDateText, subNumText, quitBtn)
+                                             views: userImg, nameText, phoneText, cityText, birthDateText, subNumText, quitBtn)
         
         contentView.addConstraintsWithForamt(format: "V:[v0]-8-|", views: subscribeBtn)
         contentView.addConstraintsWithForamt(format: "V:[v0]-8-|", views: sendMessageBtn)                

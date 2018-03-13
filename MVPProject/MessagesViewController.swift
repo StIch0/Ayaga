@@ -89,11 +89,13 @@ extension MessagesViewController: UITableViewDataSource {
         cell.user_login.text = messagesData.user_login
         cell.user_photo.loadImageUsingCacheWithUrlString(APICallManager.instanse.API_BASE_URL + messagesData.user_photo, nil, UIActivityIndicatorView())
         cell.lastMsg = UserMessagesModel().build(messagesData.user_messages.last!) as? UserMessagesModel ?? UserMessagesModel() 
-        cell.lastMessage.text = cell.lastMsg.text
+        cell.lastMessage.text = "  " + cell.lastMsg.text
         cell.date.text = cell.lastMsg.date
-        
-        if (cell.lastMsg.from_id == id) {
-            cell.lastMessage.backgroundColor = .gray
+        cell.setConstraints();
+        if (cell.lastMsg.to_id == id) {
+            cell.lastMessage.backgroundColor = UIColor.rgb(220, 220, 220)
+        } else {
+            cell.lastMessage.backgroundColor = .clear            
         }
         
         return cell

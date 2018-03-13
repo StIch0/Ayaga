@@ -19,37 +19,56 @@ class SignInViewController: UIViewController {
     var signInBtn = UIButton()
     var signUpBtn = UIButton()
     
-    var activityIndicator : UIActivityIndicatorView = UIActivityIndicatorView() 
-
+    var activityIndicator : UIActivityIndicatorView = UIActivityIndicatorView()         
+    
     override func viewDidLoad() {
-        super.viewDidLoad()
+        super.viewDidLoad()        
         let reveal : SWRevealViewController? = revealViewController()        
         if reveal != nil {                        
             navigationItem.setLeftBarButtonItems([UIBarButtonItem(image: #imageLiteral(resourceName: "menu"), style: .plain, target: reveal, action: #selector(reveal?.revealToggle(_:)))], animated: true)            
             self.view.addGestureRecognizer((reveal?.panGestureRecognizer())!)
         }
         activityIndicator.hidesWhenStopped = true
-        presenter.atachView(resultView: self)
-        presenter.getData(APISelected.Sign_in.rawValue, parameters: ["login": login as AnyObject,
-                                                                     "pass": pass as AnyObject],
-                          withName: "", imagesArr: [], videoArr: [], audioArr: [], docsArr: [])
+        
         signUpBtn.addTarget(self, action: #selector(showSignUpController), for: .touchDown)
-        signInBtn.addTarget(self, action: #selector(showMyProfileController), for: .touchDown)
+        signInBtn.addTarget(self, action: #selector(sendLoginAndPass), for: .touchDown)
         setView()
     }    
     
     func showSignUpController ()
-    {
+    {               
         let controller = SignUpViewController()
         self.navigationController?.pushViewController(controller, animated: true)
     }
     
-    func showMyProfileController ()
+    func sendLoginAndPass ()
     {
-        let presenter = ResultPresenter(service: ResultServise())
-        let statusView = [ResulViewData]()
-        let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "UsrInfoViewController")
+        login = lginTF.text ?? ""
+        pass = pswdTF.text ?? ""                      
+        
+        presenter.atachView(resultView: self)
+        presenter.getData(APISelected.Sign_in.rawValue, parameters: ["login": login as AnyObject,
+                                                                     "pass": pass as AnyObject],
+                          withName: "", imagesArr: [], videoArr: [], audioArr: [], docsArr: [])
+    }
+    
+    func showMyProfileController ()
+    {                            
+        let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "UsrInfoViewController") as! UsrInfoViewController        
+        controller.id = viewData.first?.id as? Int ?? 0        
         self.navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    func checkStatus (_ result : String)
+    {
+        if result == "ОК" {
+            showMyProfileController()
+        }
+        else {
+            let alert = UIAlertController(title: "Ошибка !", message: "\(result)", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 }
 
@@ -60,9 +79,9 @@ extension SignInViewController : ViewBuild {
     
     internal func setData(data: [ViewData]) {
         viewData = data as! [ResulViewData]
-        print(viewData.first ?? "Error")
-        self.view.isHidden = false
-        
+        print(viewData.first ?? "Error")        
+        checkStatus(viewData.last?.result ?? "")        
+        self.view.isHidden = false        
     }
     
     internal func finishLoading() {

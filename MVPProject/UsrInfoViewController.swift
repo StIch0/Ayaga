@@ -87,7 +87,6 @@ extension UsrInfoViewController : UICollectionViewDelegate, UICollectionViewData
         cell.cityText.text      = cityText
         cell.birthDateText.text = birthDateText
         cell.subNumText.text    = subNumText
-        
         return cell
     }
     

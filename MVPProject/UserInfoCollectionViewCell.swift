@@ -29,6 +29,7 @@ class UserInfoCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         self.backgroundColor = .white
         setView()
+        setConstraints()
     }
     
     required init?(coder aDecoder: NSCoder) {

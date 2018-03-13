@@ -14,7 +14,7 @@ struct CommentsViewData : ViewData {
 
 class CommentsPresenter  {
     let service  : GeneralDataService
-    weak private var commentsView : ViewBuild?
+    var commentsView : ViewBuild?
     init(service : GeneralDataService) {
         self.service = service
     }

@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 struct ResulViewData:  ViewData{
+    let id : AnyObject    
     let result : String
 }
 
@@ -40,7 +41,7 @@ class ResultPresenter {
             else {
                 let resMap = result.map {
                     rmap in
-                    return ResulViewData(result : "\(rmap.status)")
+                    return ResulViewData(id : rmap.id ?? -1 as AnyObject, result : "\(rmap.status)")
                 }
                 self.resultView?.setData(data: resMap)
             }

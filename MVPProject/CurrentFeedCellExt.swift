@@ -40,16 +40,18 @@ extension CurrentFeedCell
     
     func setView()
     {
+        imageHeightAnchor = collectionView.heightAnchor.constraint(equalToConstant: 0)
+        imageHeightAnchor?.isActive = true
         
-        addSubview(user_login)
-        addSubview(profileImageView)
-        addSubview(textV)
-        addSubview(dividerLineView)
-        addSubview(views)
-        addSubview(like)
-        addSubview(mark)
-        addSubview(dislike)
-        addSubview(collectionView)
+        contentView.addSubview(user_login)
+        contentView.addSubview(profileImageView)
+        contentView.addSubview(textV)
+        contentView.addSubview(dividerLineView)
+        contentView.addSubview(views)
+        contentView.addSubview(like)
+        contentView.addSubview(mark)
+        contentView.addSubview(dislike)
+        contentView.addSubview(collectionView)
         
         titleV.isEditable = false
         textV.isEditable = false
@@ -76,7 +78,7 @@ extension CurrentFeedCell
         setLoginAndDate("qwe", "01.02.2018 12:11")
         setViewsText("123")                
         
-        setConstraints()
+        
         
         collectionView.backgroundColor = UIColor(white: 0.95, alpha: 1) 
         collectionView.alwaysBounceHorizontal = true
@@ -86,31 +88,28 @@ extension CurrentFeedCell
         layout.minimumLineSpacing = 0
         collectionView.isPagingEnabled = true
         collectionView.collectionViewLayout = layout
+        
+        user_login.removeConstraints(user_login.constraints)
+        user_login.addConstraintsWithForamt(format: "H:|[v0]|", views: user_login.titleLabel!)
+        user_login.addConstraintsWithForamt(format: "V:|[v0]|", views: user_login.titleLabel!)  
+        
+        setConstraints()
     }
     
     func setConstraints()
     {
-        self.removeConstraints(self.constraints)
-        user_login.addConstraintsWithForamt(format: "H:|[v0]|", views: user_login.titleLabel!)
-        user_login.addConstraintsWithForamt(format: "V:|[v0]|", views: user_login.titleLabel!)
-        addConstraintsWithForamt(format: "H:|[v0]|", views: textV)           
-        addConstraintsWithForamt(format: "H:|-15-[v0]-15-|", views: dividerLineView)
-        addConstraintsWithForamt(format: "H:|-8-[v0(44)]-8-[v1]|", views: profileImageView, user_login)
-        addConstraintsWithForamt(format: "H:|-10-[v0]", views: views)
-        addConstraintsWithForamt(format: "H:[v0(24)][v1(40)][v2(24)]-15-|", views: dislike, mark, like)
-        addConstraintsWithForamt(format: "V:[v0(24)]-7-|", views: like)
-        addConstraintsWithForamt(format: "V:[v0(24)]-7-|", views: mark)
-        addConstraintsWithForamt(format: "V:[v0(24)]-7-|", views: dislike)        
-        addConstraintsWithForamt(format: "V:|-8-[v0(44)]", views: user_login)
-        addConstraintsWithForamt(format: "H:|[v0]|", views: collectionView)
-        
-        if (images.count > 0) {                             
-            addConstraintsWithForamt(format: "V:|-8-[v0(44)]-4-[v1]-8-[v2(400)]-8-[v3(1)]-4-[v4(40)]|", views: profileImageView, textV, collectionView, dividerLineView, views)
-        }
-        else {
-            addConstraintsWithForamt(format: "V:|-8-[v0(44)]-4-[v1]-8-[v2(0)][v3(1)]-4-[v4(40)]|", views: profileImageView, textV, collectionView, dividerLineView, views)
-            return 
-        }
+        self.contentView.removeConstraints(self.contentView.constraints)   
+        contentView.addConstraintsWithForamt(format: "H:|[v0]|", views: textV)           
+        contentView.addConstraintsWithForamt(format: "H:|-15-[v0]-15-|", views: dividerLineView)
+        contentView.addConstraintsWithForamt(format: "H:|-8-[v0(44)]-8-[v1]|", views: profileImageView, user_login)
+        contentView.addConstraintsWithForamt(format: "H:|-10-[v0]", views: views)
+        contentView.addConstraintsWithForamt(format: "H:[v0(24)][v1(40)][v2(24)]-15-|", views: dislike, mark, like)
+        contentView.addConstraintsWithForamt(format: "V:[v0(24)]-7-|", views: like)
+        contentView.addConstraintsWithForamt(format: "V:[v0(24)]-7-|", views: mark)
+        contentView.addConstraintsWithForamt(format: "V:[v0(24)]-7-|", views: dislike)        
+        contentView.addConstraintsWithForamt(format: "V:|-8-[v0(44)]", views: user_login)
+        contentView.addConstraintsWithForamt(format: "H:|[v0]|", views: collectionView)        
+        contentView.addConstraintsWithForamt(format: "V:|-8-[v0(44)]-4-[v1]-8-[v2]-8-[v3(1)]-4-[v4(40)]|", views: profileImageView, textV, collectionView, dividerLineView, views)        
     }
 }
 
@@ -131,73 +130,18 @@ extension CurrentFeedCell: UICollectionViewDelegate, UICollectionViewDataSource
     }
 }
 
-
-class CenterCellCollectionViewFlowLayout: UICollectionViewFlowLayout {
-    
-    var mostRecentOffset : CGPoint = CGPoint()
-    
-    override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
-        
-        if velocity.x == 0 {
-            return CGPoint(x: mostRecentOffset.x+20, y: mostRecentOffset.y)
-        }
-        
-        if let cv = self.collectionView {
-            
-            let cvBounds = cv.bounds
-            let halfWidth = (cvBounds.size.width + 10) * 0.5;
-            
-            
-            if let attributesForVisibleCells = self.layoutAttributesForElements(in: cvBounds) {
-                
-                var candidateAttributes : UICollectionViewLayoutAttributes?
-                for attributes in attributesForVisibleCells {
-                    
-                    // == Skip comparison with non-cell items (headers and footers) == //
-                    if attributes.representedElementCategory != UICollectionElementCategory.cell {
-                        continue
-                    }
-                    
-                    if (attributes.center.x == 0) || (attributes.center.x > (cv.contentOffset.x + halfWidth) && velocity.x < 0) {
-                        continue
-                    }
-                    candidateAttributes = attributes 
-                }
-                
-                // Beautification step , I don't know why it works!
-                if(proposedContentOffset.x == -(cv.contentInset.left)) {
-                    return proposedContentOffset
-                }
-                
-                guard let _ = candidateAttributes else {
-                    return mostRecentOffset
-                }
-                mostRecentOffset = CGPoint(x: ceil(candidateAttributes!.center.x - halfWidth + 20), y: proposedContentOffset.y)
-                return mostRecentOffset
-                
-            }
-        }
-        
-        // fallback
-        mostRecentOffset = super.targetContentOffset(forProposedContentOffset: CGPoint(x: proposedContentOffset.x, y: proposedContentOffset.y))
-        return mostRecentOffset
-    }
-    
-    
-}
-
 class imgCell: UICollectionViewCell
 {
     var img: UIImageView = UIImageView()
     
     override init(frame: CGRect) {
-        super.init(frame: frame)        
+        super.init(frame: frame)  
         self.contentView.addSubview(img)
         img.translatesAutoresizingMaskIntoConstraints = false
-        addConstraintsWithForamt(format: "H:|[v0(\(UIScreen.main.bounds.width))]|", views: img)
-        addConstraintsWithForamt(format: "V:|[v0]|", views: img)
+        contentView.addConstraintsWithForamt(format: "H:|[v0(\(UIScreen.main.bounds.width))]|", views: img)
+        contentView.addConstraintsWithForamt(format: "V:|[v0]|", views: img)
         img.contentMode = .scaleAspectFit
-        img.clipsToBounds = true
+        img.clipsToBounds = true        
     }
     
     required init?(coder aDecoder: NSCoder) {
