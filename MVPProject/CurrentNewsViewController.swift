@@ -35,6 +35,7 @@ class CurrentNewsViewController: UIViewController {
     
     let textField = UITextField()    
     let customInputView = UIView() 
+    var inputViewBottomAnchor : NSLayoutConstraint?
     
     override func viewDidLoad() {
         super.viewDidLoad()        
