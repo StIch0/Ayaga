@@ -33,7 +33,7 @@ class CurrentNewsViewController: UIViewController {
     var cmd = CommentsDataModel()
     var post_id : Int = 181
     
-    let textField = UITextField()    
+    let textField = UITextField()
     let customInputView = UIView() 
     var inputViewBottomAnchor : NSLayoutConstraint?
     
