@@ -114,11 +114,11 @@ extension CurrentMessagesViewController
     {        
         var stringForSend = ""
         //textField.text?.lengthOfBytes(using: .ascii)
-        if let strArray = textField.text?.split(separator: " ") {
+        if let strArray = textField.text?._split(separator: " ") {
             for str in strArray {
                 stringForSend += str + " "
             }
-            if stringForSend.isEmpty == false {stringForSend.removeLast()}             
+            if stringForSend.isEmpty == false {stringForSend.characters.removeLast()}
         }
         
         if stringForSend.isEmpty {

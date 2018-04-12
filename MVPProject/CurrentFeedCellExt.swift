@@ -21,7 +21,7 @@ extension CurrentFeedCell
         let paragraphSt = NSMutableParagraphStyle()
         paragraphSt.lineSpacing = 4
         
-        attrStr.addAttribute(NSParagraphStyleAttributeName, value: paragraphSt, range: NSMakeRange(0, attrStr.string.count))
+        attrStr.addAttribute(NSParagraphStyleAttributeName, value: paragraphSt, range: NSMakeRange(0, attrStr.string.characters.count))
         
         user_login.setAttributedTitle(attrStr, for: .normal)
     }
