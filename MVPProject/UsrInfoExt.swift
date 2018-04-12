@@ -72,13 +72,13 @@ extension UserInfoCollectionViewCell
         subscribeBtn.setTitle("Подписаться", for: .normal)
         subscribeBtn.setTitleColor(.white, for: .normal)
         subscribeBtn.backgroundColor = .orange
-        subscribeBtn.isHidden = true
+        subscribeBtn.isHidden = false
         subscribeBtn.layer.cornerRadius = 10
         
         sendMessageBtn.setTitle("Написать сообщение", for: .normal)
         sendMessageBtn.setTitleColor(.white, for: .normal)
         sendMessageBtn.backgroundColor = .orange
-        sendMessageBtn.isHidden = true
+        sendMessageBtn.isHidden = false
         sendMessageBtn.layer.cornerRadius = 10                
     }
     
@@ -100,14 +100,20 @@ extension UserInfoCollectionViewCell
                                              views: userImg, nameText, phoneText, cityText, birthDateText, subNumText, quitBtn)
         
         contentView.addConstraintsWithForamt(format: "V:[v0]-8-|", views: subscribeBtn)
-        contentView.addConstraintsWithForamt(format: "V:[v0]-8-|", views: sendMessageBtn)                
-        
-        if (Profile.shared.sign) {
-            quitBtn.isEnabled = true
+        contentView.addConstraintsWithForamt(format: "V:[v0]-8-|", views: sendMessageBtn)                                
+    }
+    
+    func setUpButtons()
+    {
+        if (Profile.shared.id == user_id) {
+            quitBtn.isHidden = false
+            sendMessageBtn.isHidden = true
+            subscribeBtn.isHidden   = true
             
         } else {
-            sendMessageBtn.isEnabled = true
-            subscribeBtn.isEnabled   = true
+            quitBtn.isHidden = true
+            sendMessageBtn.isHidden = false
+            subscribeBtn.isHidden   = false
         }
     }
 }

@@ -18,6 +18,7 @@ extension MessagesTableViewCell
         contentView.addSubview(lastMessage)        
         
         user_photo .layer.cornerRadius = 20
+        user_photo .clipsToBounds = true
         lastMessage.layer.cornerRadius = 10
         lastMessage.clipsToBounds = true
         

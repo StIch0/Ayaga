@@ -13,15 +13,22 @@ class CurrentCardTableViewCell: UITableViewCell {
     var title  : String = ""
     var textCard :  String = ""
     var images : [String] = Array()
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    
+    var img = UIImageView()
+    var titleView = UILabel()
+    var textView = UILabel()
+    
+    var imgHeightConstraint : NSLayoutConstraint
+    
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        imgHeightConstraint = img.heightAnchor.constraint(equalToConstant: 0)
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        setView()
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
-
+    
 }

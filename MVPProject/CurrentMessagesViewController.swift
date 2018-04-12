@@ -12,10 +12,15 @@ class CurrentMessagesViewController: UIViewController {
     
     var usmessModel : [UserMessagesModel] = [UserMessagesModel]()
     var id : Int = 0;
+    var to_id : Int = 0;
+    var scrolled = false
         
     let textField = UITextField()    
     let customInputView = UIView()                
     var inputViewBottomAnchor : NSLayoutConstraint?
+    var activityIndicator = UIActivityIndicatorView()
+    
+    var sendResultViewData = [ResulViewData]()
     
     var collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     
@@ -24,7 +29,7 @@ class CurrentMessagesViewController: UIViewController {
 
         setCollectionView()
         setUpKeyBoardObservers()        
-        setUpInputView()
+        setUpInputView()                        
         
         collectionView.keyboardDismissMode = .onDrag
     }   
@@ -75,6 +80,16 @@ extension CurrentMessagesViewController : UICollectionViewDelegate, UICollection
             cell.bubbleRightAnchor?.isActive = false
         }
         
+        
+        //КРИВОЙ СКРОЛЛ В БОТТОМ
+        if !scrolled {        
+            collectionView.scrollToItem(at: indexPath, at: .bottom, animated: false)
+            
+            if (indexPath.row == usmessModel.count-1) {
+                scrolled = true
+            }
+        }        
+        
         return cell
     }        
     
@@ -109,7 +124,68 @@ extension CurrentMessagesViewController
         if stringForSend.isEmpty {
             return
         }
+                
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let nowDate = dateFormatter.string(from: Date())                 
         
-        print ("Message for send =", stringForSend)
+        let sendMsgPresenter = ResultPresenter(service: ResultServise())
+        sendMsgPresenter.atachView(resultView: self as ViewBuild)
+        sendMsgPresenter.getData(APISelected.Send_message.rawValue, parameters: ["from_id" : id as AnyObject, "to_id" : to_id as AnyObject, "text" : stringForSend as AnyObject, "date" : nowDate as AnyObject], withName: "", imagesArr: [], videoArr: [], audioArr: [], docsArr: [])
+        
+        
+        let msgModel = UserMessagesModel()
+        msgModel.audio = []
+        msgModel.docs = []
+        msgModel.images = []
+        msgModel.video = []
+        msgModel.date = nowDate
+        msgModel.from_id = id
+        msgModel.to_id = to_id
+        msgModel.is_readed = 1
+        msgModel.text = stringForSend
+        usmessModel.append(msgModel)
+        
+        let insertIndexPath = IndexPath(item: usmessModel.count - 1, section: 0)
+        collectionView.insertItems(at: [insertIndexPath])
+        collectionView.scrollToItem(at: insertIndexPath, at: .bottom, animated: true)
+    }
+}
+
+
+extension CurrentMessagesViewController: ViewBuild {
+    internal func setEmptyData() {
+        collectionView.isHidden = true
+    }
+    
+    internal func setData(data: [ViewData]) {
+        sendResultViewData = data as! [ResulViewData]        
+        
+        let res = sendResultViewData.first?.result ?? "" 
+        
+        if (res == "OK") {
+            collectionView.reloadData()
+            textField.text = ""
+        }                        
+        else {
+            usmessModel.removeLast()
+            let deleteIndexPath = IndexPath(item: usmessModel.count, section: 0)
+            collectionView.deleteItems(at: [deleteIndexPath])
+            
+            collectionView.scrollToItem(at: IndexPath(item: usmessModel.count-1, section: 0), at: .bottom, animated: true)
+            
+            let alert = UIAlertController(title: "ERROR", message: "Ошибка при отправке сообщения", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+        
+    }
+    
+    internal func finishLoading() {
+        activityIndicator.stopAnimating()
+    }
+    
+    internal func startLoading() {
+        activityIndicator.startAnimating()
     }
 }

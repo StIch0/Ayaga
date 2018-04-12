@@ -130,22 +130,5 @@ extension CurrentFeedCell: UICollectionViewDelegate, UICollectionViewDataSource
     }
 }
 
-class imgCell: UICollectionViewCell
-{
-    var img: UIImageView = UIImageView()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)  
-        self.contentView.addSubview(img)
-        img.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addConstraintsWithForamt(format: "H:|[v0(\(UIScreen.main.bounds.width))]|", views: img)
-        contentView.addConstraintsWithForamt(format: "V:|[v0]|", views: img)
-        img.contentMode = .scaleAspectFit
-        img.clipsToBounds = true        
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
+
 

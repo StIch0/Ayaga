@@ -26,6 +26,8 @@ class NewsCell: UICollectionViewCell {
         like.addTarget(self, action: #selector(animateMe(_:)), for: .touchDown)
         like.addTarget(self, action: #selector(handleLike(_:)), for: .touchDown)
         user_login.addTarget(self, action: #selector(handleUserLoginButton), for: .touchDown)
+        
+//        if (!Profile.shared.sign) {like.isEnabled=false; dislike.isEnabled=false}
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -51,12 +53,9 @@ class NewsCell: UICollectionViewCell {
     var postId : Int = -1
     var userId : Int = -1
     var spinner : UIActivityIndicatorView = UIActivityIndicatorView()
-    
-    var controller : UIViewController? = nil
-    
-    
-    
+    var controller : UIViewController? = nil        
     var dividerLineView : UIView = UIView()      
+    var likeViewData = [ResulViewData]()
 }
 
 extension NewsCell
@@ -75,6 +74,8 @@ extension NewsCell
     
     func handleLike (_ sender: UIButton)
     {
+//        sender.isEnabled = false
+        setMarkReq(1);
         var cntV : Int = (mark.text! as NSString).integerValue
         
         if (dislike.alpha > 0.5) {
@@ -94,6 +95,8 @@ extension NewsCell
     
     func handleDislike (_ sender: UIButton)
     {
+//        sender.isEnabled = false
+        setMarkReq(-1);
         var cntV = (mark.text! as NSString).integerValue
         
         if (like.alpha > 0.5) {
@@ -111,13 +114,42 @@ extension NewsCell
         mark.text = "\(cntV)"
     }
     
+    func setMarkReq (_ markInt: Int)
+    {
+        let presenterLike = ResultPresenter(service: ResultServise())
+        presenterLike.atachView(resultView: self as ViewBuild)
+        presenterLike.getData(APISelected.Set_mark.rawValue, parameters: ["id":Profile.shared.id as AnyObject, "post_id" : postId as AnyObject], withName: "", imagesArr: [], videoArr: [], audioArr: [], docsArr: [])
+    }
+    
     func handleUserLoginButton ()
     {
-        print ("qweqweqweqweq")
         let ctrller = UsrInfoViewController()
         ctrller.id = userId
         if let ctrl = controller {
             ctrl.navigationController?.pushViewController(ctrller, animated: true)
         }
+    }
+}
+
+extension NewsCell : ViewBuild  {
+    
+    internal func setData(data: [ViewData]) {
+        likeViewData = data as! [ResulViewData]
+        print (likeViewData)
+    }
+    
+    internal func setEmptyData() {
+        
+    }
+    
+    internal func startLoading() {
+        // Show your loader
+        print("Show your loader")
+        spinner.startAnimating()
+    }
+    
+    internal func finishLoading() {
+        // Dismiss your loader
+        spinner.stopAnimating()
     }
 }

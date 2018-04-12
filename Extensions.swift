@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import IQMediaPickerController
 
 let imageCache = NSCache<NSString, AnyObject>()
 
@@ -42,6 +43,21 @@ extension UIImageView {
             })
             
         }).resume()
+    }
+    
+    func generateThumbImage(url : URL) -> UIImage?{        
+//        let asset = AVAsset(url: url)
+//        let assetImgGenerate : AVAssetImageGenerator = AVAssetImageGenerator(asset: asset)
+//        assetImgGenerate.appliesPreferredTrackTransform = true
+//        let time = CMTimeMake(1, 30)
+//        let img = try? assetImgGenerate.copyCGImage(at: time, actualTime: nil)
+//        
+//        guard let cgImage = img else { return nil }
+//        
+//        let frameImg    = UIImage(cgImage: cgImage)
+//        return frameImg
+        
+        return UIImage()
     }
     
 }

@@ -18,8 +18,7 @@ class CardsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let reveal : SWRevealViewController? = revealViewController()
-        if (parents == 0) {
-            
+        if (parents == 0) {            
             if reveal != nil {                        
                 navigationItem.setLeftBarButtonItems([UIBarButtonItem(image: #imageLiteral(resourceName: "menu"), style: .plain, target: reveal, action: #selector(reveal?.revealToggle(_:)))], animated: true)            
                 self.view.addGestureRecognizer((reveal?.panGestureRecognizer())!)
@@ -45,6 +44,7 @@ class CardsViewController: UIViewController {
         let controller = segue.destination as! CurrentCardViewController
         let index = sender as! Int
         controller.categories = index
+        print ("index ====== ", index)
     }
 }
 

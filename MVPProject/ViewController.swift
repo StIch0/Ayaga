@@ -12,16 +12,17 @@ class ViewController: UIViewController {
             
     var collectionView : UICollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     var activityIndicator = UIActivityIndicatorView()
-    let presenter = NewsPresenter(newsService: GeneralDataService())
+    var presenter : AnyObject? = nil 
     var newsToDisplay = [NewsViewData]()
     var limit : Int = 20
     var offset : Int = 0
     var btnMenu = UIBarButtonItem()    
     var id : Int = 0
+    var isNews : Bool = true 
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        
+        super.viewDidLoad()                                         
+
         let reveal : SWRevealViewController? = revealViewController()        
         if reveal != nil {                        
             navigationItem.setLeftBarButtonItems([UIBarButtonItem(image: #imageLiteral(resourceName: "menu"), style: .plain, target: reveal, action: #selector(reveal?.revealToggle(_:)))], animated: true)            
@@ -31,15 +32,29 @@ class ViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.alwaysBounceVertical = true
         activityIndicator.hidesWhenStopped = true
-        presenter.atachView(view: self as ViewBuild)
-        presenter.getNews(parameters: ["limit": limit as AnyObject, "offset" : offset as AnyObject, "post_id" : id as AnyObject ])        
+        
+        
+        Profile.shared.sign = true
+        Profile.shared.id = 4
+        if (isNews) {
+            navigationItem.title = "Новости"
+            presenter = NewsPresenter(newsService: GeneralDataService())
+            (presenter as! NewsPresenter).atachView(view: self as ViewBuild)
+            (presenter as! NewsPresenter).getNews(parameters: ["limit": limit as AnyObject, "offset" : offset as AnyObject, "post_id" : id as AnyObject ])
+        }
+        else {
+            navigationItem.title = "Лента подписок"
+            presenter = SubNewsPresenter(newsService: GeneralDataService())
+            (presenter as! SubNewsPresenter).atachView(view: self as ViewBuild)
+            (presenter as! SubNewsPresenter).getNews(parameters: ["limit": limit as AnyObject, "offset" : offset as AnyObject, "post_id" : id as AnyObject ])
+        }
+                        
         self.view.addSubview(collectionView)                
         setCollectionView()
         collectionView.reloadData()                
     }    
 
-    func setCollectionView()
-    {
+    func setCollectionView() {
         collectionView.register(NewsCell.self, forCellWithReuseIdentifier: "NewsCell")
         collectionView.backgroundColor = UIColor(white: 0.95, alpha: 1)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -87,7 +102,12 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
         if indexPath.row == newsToDisplay.count-1 {
             offset += 20
             print(" \(limit) <limit == offset> \(offset)")
-            presenter.getNews(parameters: ["limit": limit as AnyObject, "offset" : offset as AnyObject, "post_id" : Profile.shared.id as AnyObject ])
+            if (isNews) {
+                (presenter as! NewsPresenter).getNews(parameters: ["limit": limit as AnyObject, "offset" : offset as AnyObject, "post_id" : Profile.shared.id as AnyObject ])
+            }
+            else {
+                (presenter as! SubNewsPresenter).getNews(parameters: ["limit": limit as AnyObject, "offset" : offset as AnyObject, "post_id" : Profile.shared.id as AnyObject ])
+            }
         }
             return cell
     }

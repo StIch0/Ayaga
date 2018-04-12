@@ -9,8 +9,8 @@
 import UIKit
 
 class CurrentCardViewController: UIViewController {
-    @IBOutlet weak var tableView : UITableView?
-    @IBOutlet weak var activityIndicator : UIActivityIndicatorView?
+    var tableView = UITableView()
+    var activityIndicator = UIActivityIndicatorView()
     let limit : Int = 20
     var offset : Int = 0
     var categories : Int = 0
@@ -18,20 +18,20 @@ class CurrentCardViewController: UIViewController {
     var currentCardViewData = [CurrentCardViewData]()
     override func viewDidLoad() {
         super.viewDidLoad()
-        activityIndicator?.hidesWhenStopped = true
+        activityIndicator.hidesWhenStopped = true
 
+        print ("Cat = ", categories)
+        
         presenter.atachView(cardsView: self as ViewBuild)
-        presenter.getCards(["categories":categories as AnyObject,
+        presenter.getCards(["category":categories as AnyObject,
                             "limit":limit as AnyObject,
                             "offset":offset as AnyObject])
-        tableView?.dataSource = self
-        tableView?.delegate = self
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        tableView.dataSource = self
+        tableView.delegate = self
+        view.addSubview(tableView)
+        tableView.register(CurrentCardTableViewCell.self, forCellReuseIdentifier: "CurrentCardTableViewCell")
+        view.addConstraintsWithForamt(format: "H:|[v0]|", views: tableView)
+        view.addConstraintsWithForamt(format: "V:|[v0]|", views: tableView)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -39,35 +39,26 @@ class CurrentCardViewController: UIViewController {
         let index = sender as! Int
         controller.currentDataCardViewData = [currentCardViewData[index]]
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 }
 extension CurrentCardViewController : ViewBuild {
     internal func setEmptyData() {
-        tableView?.isHidden = true
+        tableView.isHidden = true
     }
     
     internal func setData(data: [ViewData]) {
         currentCardViewData = data as! [CurrentCardViewData]
         // print(cardsViewData.first)
-        tableView?.isHidden = false
-        tableView?.reloadData()
+        tableView.isHidden = false
+        tableView.reloadData()
         
     }
     
     internal func finishLoading() {
-        activityIndicator?.stopAnimating()
+        activityIndicator.stopAnimating()
     }
     
     internal func startLoading() {
-        activityIndicator?.startAnimating()
+        activityIndicator.startAnimating()
     }
 }
 extension CurrentCardViewController  : UITableViewDelegate {
@@ -84,7 +75,36 @@ extension CurrentCardViewController : UITableViewDataSource {
         cell.title = cardsData.title
         cell.textCard = cardsData.textCard
         cell.images = cardsData.images
+        
+        cell.textView.text = cardsData.textCard
+        cell.titleView.text = cardsData.title
+        
+        if (cardsData.images.count > 0) {
+            cell.img.loadImageUsingCacheWithUrlString(APICallManager.instanse.API_BASE_URL + cardsData.images[0], nil, UIActivityIndicatorView())
+            cell.imgHeightConstraint.constant = 350;
+            cell.imgHeightConstraint.isActive = true
+        }
+        else {
+            cell.imgHeightConstraint.constant = 0;
+            cell.imgHeightConstraint.isActive = true
+        }
+        
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let data = currentCardViewData[indexPath.row]
+        let titleH = NSString(string: data.title).boundingRect(with: CGSize(width: tableView.frame.width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin), attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15)], context: nil)
+        let textH = NSString(string: data.textCard).boundingRect(with: CGSize(width: tableView.frame.width, height: 4000), options: NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin), attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 13)], context: nil)
+        
+        var imgH = CGFloat(0)
+        
+        if data.images.count > 0 {
+            imgH = 350
+        }
+    
+        // V:|-8-[v0]-4-[v1]-8-[v2]-8-|
+        return 8 + titleH.height + 4 + textH.height + 8 + imgH + 8 + 20
     }
     
     @available(iOS 2.0, *)

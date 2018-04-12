@@ -22,10 +22,10 @@ class MessagesModel : GeneralModel{
             self.count = data as! Int
         }
         if let data = dict["user_login"]  {
-            self.user_login = data as! String
+            self.user_login = data as? String ?? ""
         }
         if let data = dict["user_photo"]  {
-            self.user_photo = data as! String
+            self.user_photo = data as? String ?? ""
         }
         if let data = dict["user_messages"]  {
              self.user_messages = data as! [[String : AnyObject]]

@@ -65,7 +65,7 @@ class CurrentNewsViewController: UIViewController {
               views,
               user_mark)
         
-        setUpInputView()
+        
         
         self.view.addSubview(tableView)        
         tableView.delegate = self
@@ -76,12 +76,21 @@ class CurrentNewsViewController: UIViewController {
         tableView.register(CommentsTableViewCell.self, forCellReuseIdentifier: "CommentsTableViewCell")
         tableView.allowsSelection = false
         
+        setUpInputView()
+        setUpKeyBoardObservers()
+        
         getComments()
     }    
     
     func getComments () {
         presenter.atachView(commentsView: self as ViewBuild)
         presenter.getComments(["post_id":post_id as AnyObject])
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)                
+        
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
@@ -124,7 +133,7 @@ extension CurrentNewsViewController: UITableViewDelegate, UITableViewDataSource
             cell.video = commentsData.video
             cell.audio = commentsData.audio
             cell.docs = commentsData.docs
-            
+            cell.controller = self
             return cell
         }                
     }   
@@ -140,18 +149,16 @@ extension CurrentNewsViewController: UITableViewDelegate, UITableViewDataSource
                 return 8 + 44 + 4 + textH.height + 8 + 400 + 8 + 1 + 4 + 40 + 35
             }
             
-            return 8 + 44 + 4 + textH.height + 8 + 1 + 4 + 40 + 35
+            return 8 + 44 + 4 + textH.height + 8 + 1 + 4 + 40 + 30
         }
         
         let commentsData = commentsDataModel[indexPath.row - 1]
         
         let textH = NSString(string: commentsData.textComments).boundingRect(with: CGSize(width: tableView.frame.width, height: 4000), options: NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin), attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 13)], context: nil)
         
-        print (fultext)
-        
         //"V:|-8-[v0(44)]-4-[v1]-8-|"
         
-        return 8 + 44 + 4 + textH.height + 8 + 20
+        return 8 + 44 + 4 + textH.height + 8 + 25
     }
 }
 

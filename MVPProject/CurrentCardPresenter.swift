@@ -33,15 +33,16 @@ class CurrentCardPresenter {
             api: APISelected.Get_card.rawValue,
             key: "cards",
             model: CurrentCardModel(),
-            parameters: parameters, onSuccess: {(card) in
-                self.cardsView?.finishLoading()
+            parameters: parameters, 
+            onSuccess: {(card) in
+                 self.cardsView?.finishLoading()
                 if card.count == 0 {
-                    self.cardsView?.setEmptyData()
+                     self.cardsView?.setEmptyData()
                 }else {
                     
                     let mapInfo = (card as! [CurrentCardModel]).map{
                         infoMap -> CurrentCardViewData in
-                        // print(infoMap.user_messages.first?.text)
+                         print("infoMap.textCard",infoMap.textCard)
                         return CurrentCardViewData(id: infoMap.id,
                                                    title: infoMap.title,
                                                    textCard: infoMap.textCard,

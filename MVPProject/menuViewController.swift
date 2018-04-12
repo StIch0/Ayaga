@@ -217,6 +217,9 @@ class menuViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         var newViewcontroller : UIViewController = UIViewController()
         newViewcontroller = mainstoryboard.instantiateViewController(withIdentifier: viewControllersDict[controllerName]!)
                         
+        if controllerName == "Лента подписок" {(newViewcontroller as! ViewController).isNews = false}
+        if controllerName == "Сообщения"      {(newViewcontroller as! MessagesViewController).id = Profile.shared.id}
+        
         let newFrontController = UINavigationController.init(rootViewController: newViewcontroller)
         revealViewController().pushFrontViewController(newFrontController, animated: true)        
     }    

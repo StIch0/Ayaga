@@ -23,6 +23,7 @@ class CreateRequestManager {
             switch responseJSON.result {
             case .success(let value):
                 let json = JSON(value)
+                print("JSON = ",json)
                 successCallback?(json)
             case .failure(let error):
                 if let callback = failureCallback {
@@ -70,11 +71,10 @@ class CreateRequestManager {
             for key in parameters.keys{
                 let name = String(key)
                 var val = ""
-                    if name! == "id" {
-                            val = String(parameters[name!] as! Int)
-                    }
-                    else{
-                            val = parameters[name!] as! String
+                    if (name! == "id" || name! == "post_id" || name! == "author_id" || name! == "user_id" || name! == "to_id" || name! == "from_id") {
+                        val = String(parameters[name!] as! Int)                    
+                    } else {
+                        val = parameters[name!] as! String
                     }
                 multipartFormData.append(val.data(using: .utf8)!, withName: name!)
             }

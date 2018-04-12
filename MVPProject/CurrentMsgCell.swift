@@ -16,6 +16,7 @@ extension CurrentMessagesCell
         bubbleView.addSubview(msg)
         bubbleView.addSubview(date)            
         
+        msg.isEditable = false
         msg.backgroundColor = UIColor.clear
         msg.textColor = .white
         

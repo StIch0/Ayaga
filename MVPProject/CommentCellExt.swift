@@ -21,6 +21,8 @@ extension CommentsTableViewCell
         
         textComments.isEditable = false
         textComments.font = UIFont.systemFont(ofSize: 13)
+        textComments.isScrollEnabled = false
+        setConstraints()
     }
     
     func setLoginAndDate (_ login: String, _ date: String)
@@ -37,28 +39,20 @@ extension CommentsTableViewCell
         
         attrStr.addAttribute(NSParagraphStyleAttributeName, value: paragraphSt, range: NSMakeRange(0, attrStr.string.count))
         
-        user_login.setAttributedTitle(attrStr, for: .normal)
-        setConstraints()
+        user_login.setAttributedTitle(attrStr, for: .normal)        
     }
     
     func setConstraints()
-    {
-//        contentView.removeConstraints(contentView.constraints)        
+    {        
         user_login.backgroundColor   = .clear
         textComments.backgroundColor = .clear
         
         user_login.translatesAutoresizingMaskIntoConstraints = false
         textComments.translatesAutoresizingMaskIntoConstraints = false                
         
-//        contentView.addConstraintsWithForamt(format: "H:|-8-[v0]-8-|", views: user_login)
-//        contentView.addConstraintsWithForamt(format: "H:|-8-[v0]-8-|", views: textComments)
-//        
-//        contentView.addConstraintsWithForamt(format: "V:|-8-[v0(44)]-4-[v1]-8-|", views: user_login, textComments)
-        
         user_login.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8).isActive = true
         user_login.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 8).isActive = true
         user_login.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -8).isActive = true
-//        user_login.bottomAnchor.constraint(equalTo: textComments.topAnchor, constant: 8).isActive = true
         user_login.heightAnchor.constraint(equalToConstant: 44).isActive = true
         
         textComments.topAnchor.constraint(equalTo: user_login.bottomAnchor, constant: 8).isActive = true
@@ -67,4 +61,6 @@ extension CommentsTableViewCell
         textComments.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8).isActive = true
         textComments.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
+    
+    
 }

@@ -17,7 +17,7 @@ class MessagesViewController: UIViewController {
     var usmessModel : [UserMessagesModel] = Array()
     var umm = UserMessagesModel()
     var usMessData : [[String: AnyObject]] = Array()
-    var id : Int = 4
+    var id : Int = 0
     var needReveal : Bool = true
  
     override func viewDidLoad() {
@@ -57,6 +57,10 @@ class MessagesViewController: UIViewController {
             usmessModel.append(data as! UserMessagesModel)
         }
         controller.id = id
+        controller.to_id = Int(NSString(string: messagesViewData[index].user_id).intValue)
+        
+        print (controller.to_id)
+        
         controller.usmessModel = usmessModel
     }
 }

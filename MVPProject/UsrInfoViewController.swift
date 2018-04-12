@@ -24,7 +24,7 @@ class UsrInfoViewController: UIViewController {
     var indicator = UIActivityIndicatorView()
     var presenter : UserInfoPresenter = UserInfoPresenter(service: GeneralDataService())
     var userInfoDispaly = [UserInfoViewData]()
-    var id : Int = 0
+    var id : Int = Profile.shared.id
     var collectionView : UICollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     
     override func viewDidLoad() {
@@ -87,6 +87,9 @@ extension UsrInfoViewController : UICollectionViewDelegate, UICollectionViewData
         cell.cityText.text      = cityText
         cell.birthDateText.text = birthDateText
         cell.subNumText.text    = subNumText
+        cell.user_id = id
+        cell.setUpButtons()
+        cell.controller = self
         return cell
     }
     
