@@ -1,2 +1,5 @@
 # MVPSwift
-MVP Project on base AyagaApp
+Ayaga application 
+Use pattern MVP
+Architecture by Burdukovskii Pavel
+Design by Badagarov Dugar 
